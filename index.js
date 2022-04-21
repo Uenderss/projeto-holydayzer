@@ -31,12 +31,21 @@ app.get('/is-today-holiday',(request,response)=>{
     for(let i=0;i<holidays.length;i++){
         
        if(holidays[i].date===hoje.toLocaleDateString('en-US')){
-           mensagem='Sim, hoje é nome-do-feriado';
+           mensagem=`Sim, hoje é ${holidays[i].name}`;
            
        };
     }
 
     response.send(mensagem);
 })
+
+app.get('/holidays/:mesId', (request, response) => {
+    const id = request.params.mesId;
+    const feriadosMes = holidays.filter( (day) =>{
+        return id===day.date.split("/")[0];
+    })
+  
+    response.send(feriadosMes);
+  });
 
 app.listen(4000,()=>{console.log("aplicacao funcionando com sucesso")});
